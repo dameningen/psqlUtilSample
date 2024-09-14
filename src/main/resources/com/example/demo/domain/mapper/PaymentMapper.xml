@@ -21,6 +21,8 @@
             payment
         order by  
           payment_date
+        limit
+          50
     </select>
 
 
