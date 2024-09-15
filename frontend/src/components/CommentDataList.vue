@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-data-table :headers="headers" :items="commentData" item-key="commentId" :items-per-page-options="pages"
+    <v-data-table :headers="headers" :items="indexedItems" item-key="commentId" :items-per-page-options="pages"
       items-per-page-text="表示行数" class="elevation-1">
       <template v-slot:top>
         <v-toolbar flat>
@@ -38,6 +38,7 @@
 
 <script>
 import { callCommentFindAll } from '../libs/api/apiCall';
+import { convDateTIme } from '../libs/common/dateUtil';
 
 export default {
   name: 'CommentDataList',
@@ -74,6 +75,16 @@ export default {
       this.commentData = resData.data.data;
       console.log("test:" + JSON.stringify(this.commentData));
     }
+  },
+  computed: {
+    indexedItems() {
+      return this.commentData.map((item) => ({
+        ...item,
+        createDate: convDateTIme(item.createDate),
+        updateDate: convDateTIme(item.updateDate),
+      }))
+    }
   }
+
 };
 </script>
